@@ -13,6 +13,10 @@ async function bootstrap() {
   app.enableCors();
 
   const PORT = process.env.PORT || 3000;
-  await app.listen(PORT, () => console.log(`Running por port: ${PORT}`));
+  const HOST = process.env.HOST || '::';
+  app.listen(PORT, HOST, (err) => {
+    if (err) throw err;
+    console.log(`Server listening on ${PORT} and the host is ${HOST}`);
+  });
 }
 bootstrap();
