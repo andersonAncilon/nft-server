@@ -9,7 +9,7 @@ const typeOrmConfig: TypeOrmModuleOptions = {
   database: 'dd5d600qho5nvd',
 
   autoLoadEntities: true,
-  synchronize: false,
+  synchronize: true,
 
   ssl: {
     rejectUnauthorized: false,
