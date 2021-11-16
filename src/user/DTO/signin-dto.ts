@@ -1,13 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Blob } from 'buffer';
 
-export class SignDto {
+export class SigninDto {
   @ApiProperty()
   address: string;
 
   @ApiProperty()
   name?: string;
-
-  @ApiProperty()
-  profilePicture?: string;
 }

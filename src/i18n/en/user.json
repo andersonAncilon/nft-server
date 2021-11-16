@@ -1,0 +1,5 @@
+{
+  "SIGNIN_GENERIC_ERROR_MESSAGE": "An error ocurred",
+  "SIGNIN_SUCCESS_MESSAGE": "Successfully authenticated",
+  "SIGNIN_REGISTER_SUCCESS_MESSAGE": "Successfully registered"
+}
