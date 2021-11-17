@@ -15,6 +15,7 @@ import { AppService } from './app.service';
 import { typeOrmConfig } from './config/typeorm.config';
 import { AllExceptionsFilter } from './filters/i18n/AllExceptionsFilter';
 import { UserModule } from './user/user.module';
+import { NftModule } from './nft/nft.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { UserModule } from './user/user.module';
         new CookieResolver(['lang', 'locale', 'l']),
       ],
     }),
+    NftModule,
   ],
   controllers: [AppController],
   providers: [
