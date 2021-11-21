@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class SigninDto {
+export class FavoriteNftDto {
   @ApiProperty()
-  address: string;
+  nft_id: number;
 
   @ApiProperty()
-  name?: string;
+  user_id: number;
 }
