@@ -12,7 +12,7 @@
     "start": "nest start TZ = 'America/Sao_Paulo'",
     "start:dev": "nest start TZ = 'America/Sao_Paulo' --watch",
     "start:debug": "nest start TZ = 'America/Sao_Paulo' --debug --watch",
-    "start:prod": "node TZ = 'America/Sao_Paulo' dist/main.js",
+    "start:prod": "node dist/main.js TZ = 'America/Sao_Paulo'",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
