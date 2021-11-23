@@ -12,23 +12,9 @@ import { NFT } from './nft.entity';
 import { FavoriteNft } from './favorite/favorite-nft.entity';
 import { FavoriteNftRepository } from './favorite/favorite-nft.repository';
 import { GetNftDetailsDto } from './DTO/get-nft-details';
+import { formatNftListReturn } from 'src/shared/util/FormatNftReturn';
+import { wasNftFavoritedByUser } from 'src/shared/util/WasNftFavoritedByUser';
 
-interface INftItem {
-  id: number;
-  image: {
-    url: string;
-    title: string;
-  };
-  author: {
-    name: string;
-    image: string;
-  };
-  currency: string;
-  isLiked: boolean;
-  likes: number;
-  tags: string[];
-  value: string;
-}
 @Injectable()
 export class NftService {
   constructor(
@@ -40,10 +26,15 @@ export class NftService {
     //TODO - Adicionar filtros e paginação
     const { tags, page } = listNftDTO;
     const nfts = await this.nftRepository.find({
-      relations: ['favorite_history', 'author'],
+      relations: [
+        'favorite_history',
+        'author',
+        'favorite_history.favorited_by',
+        'favorite_history.favorite_nft',
+      ],
     });
 
-    return this.formatNftListReturn(nfts);
+    return formatNftListReturn(nfts);
   }
 
   async createNft(createNftDto: CreateNftDto) {
@@ -102,7 +93,16 @@ export class NftService {
           message: 'Usuário não encontrado',
         });
       try {
-        const alreadyFavorite = await this.favoriteNftRepository.findOne();
+        const alreadyFavorite = await this.favoriteNftRepository.findOne({
+          where: {
+            favorited_by: {
+              id: user_id,
+            },
+            favorite_nft: {
+              id: nft_id,
+            },
+          },
+        });
         if (alreadyFavorite) {
           try {
             await alreadyFavorite.remove();
@@ -162,7 +162,7 @@ export class NftService {
         });
       //TODO - Remover mock
       nft.last_bid = parseFloat((Math.random() * 100).toFixed(2));
-      nft.favorite = this.wasNftFavoritedByUser(
+      nft.favorite = wasNftFavoritedByUser(
         nft.favorite_history,
         userId,
         nft.id,
@@ -179,59 +179,5 @@ export class NftService {
         developerMessage: error.toString(),
       };
     }
-  }
-
-  wasNftFavoritedByUser(
-    favoriteHistory: FavoriteNft[],
-    userId: number,
-    nftId: number,
-  ): boolean {
-    const alreadyFavorite = favoriteHistory.find(
-      (favorite) =>
-        favorite.favorited_by.id == userId && favorite.favorite_nft.id == nftId,
-    );
-
-    if (alreadyFavorite) return true;
-    return false;
-  }
-
-  formatNftListReturn(nfts: NFT[]): INftItem[] {
-    const nftList: INftItem[] = [];
-    nfts.map((nft) => {
-      const nftItem: INftItem = {
-        id: 0,
-        image: {
-          url: '',
-          title: 'string',
-        },
-        author: {
-          name: 'string',
-          image: 'string',
-        },
-        currency: 'string',
-        isLiked: false,
-        likes: 0,
-        tags: [''],
-        value: 'string',
-      };
-      nftItem.author.name = nft.author.name;
-      nftItem.author.image = nft.author.profilePicture;
-      nftItem.currency = 'ETH';
-      nftItem.id = nft.id;
-      nftItem.image.url = nft.image;
-      nftItem.image.title = nft.name;
-      nftItem.isLiked = this.wasNftFavoritedByUser(
-        nft.favorite_history,
-        nft.author.id,
-        nft.id,
-      );
-      //TODO - Remover mock
-      nft.last_bid = parseFloat((Math.random() * 100).toFixed(2));
-      nftItem.tags = nft.tags.split('|');
-      nftItem.value = nft.value.toString();
-      nftList.push(nftItem);
-    });
-
-    return nftList.sort((item1, item2) => item1.id - item2.id);
   }
 }

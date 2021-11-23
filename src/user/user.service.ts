@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { I18nService } from 'nestjs-i18n';
+import { NFT } from 'src/nft/nft.entity';
+import { formatNftListReturn } from 'src/shared/util/FormatNftReturn';
 import { AuthenticationDto } from './DTO/authentication-dto';
+import { GetFavoritesDto } from './DTO/get-favorites-dto';
 import { User } from './user.entity';
 import { UserRepository } from './user.repository';
 
@@ -50,5 +53,27 @@ export class UserService {
       success: true,
       user,
     };
+  }
+
+  async getFavorites(getFavoriteDto: GetFavoritesDto) {
+    const { user_id } = getFavoriteDto;
+
+    const userFavorites = await this.userRepository.findOne({
+      where: {
+        id: user_id,
+      },
+      relations: [
+        'favorite_nfts',
+        'favorite_nfts.favorite_nft',
+        'favorite_nfts.favorite_nft.author',
+      ],
+    });
+
+    const nftList: NFT[] = [];
+    userFavorites.favorite_nfts.forEach((item) => {
+      nftList.push(item.favorite_nft);
+    });
+
+    return formatNftListReturn(nftList);
   }
 }
