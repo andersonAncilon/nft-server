@@ -150,6 +150,7 @@ export class NftService {
           id: nftId,
         },
         relations: [
+          'author',
           'favorite_history',
           'favorite_history.favorited_by',
           'favorite_history.favorite_nft',
