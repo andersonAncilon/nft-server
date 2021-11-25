@@ -2,11 +2,11 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',
-  host: 'ec2-44-197-94-126.compute-1.amazonaws.com',
+  host: 'ec2-3-209-38-221.compute-1.amazonaws.com',
   port: 5432,
-  username: 'obpzrfqmpsykhg',
-  password: '39c12ac1be68677d74eafdd20d192cb172845984603ec528b55e84a84e29f914',
-  database: 'dd5d600qho5nvd',
+  username: 'fcjbxdkigxtmun',
+  password: 'be24475a30fd59457247572a147a6318a21e23b953d1392b5d98290e932ef644',
+  database: 'd3cvshh2s19f32',
 
   autoLoadEntities: true,
   synchronize: true,
