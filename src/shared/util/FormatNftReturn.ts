@@ -43,6 +43,7 @@ export function formatNftListReturn(nfts: NFT[]): INftItem[] {
     nftItem.id = nft.id;
     nftItem.image.url = nft.image;
     nftItem.image.title = nft.name;
+    nftItem.likes = nft.favorite_history.length;
     nftItem.isLiked = nft?.favorite_history
       ? wasNftFavoritedByUser(nft.favorite_history, nft.author.id, nft.id)
       : null;
