@@ -19,7 +19,7 @@ export class UserService {
   //TODO - CRIAR ENDPOINT DE EDITAR PERFIL
 
   async authentication(authenticationDto: AuthenticationDto) {
-    const { address, name } = authenticationDto;
+    const { address } = authenticationDto;
 
     const user = await this.userRepository.findOne({
       where: {
@@ -28,14 +28,13 @@ export class UserService {
     });
 
     if (!user) {
-      const newUser = new User(address, name);
+      const newUser = new User(address);
       try {
         newUser.profilePicture =
           'https://avatars.githubusercontent.com/u/50152238?v=4';
         newUser.balance = 25;
 
         await newUser.save();
-
         return {
           success: true,
           user: newUser,
