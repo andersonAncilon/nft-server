@@ -1,4 +1,4 @@
-# HIPA NFT
+# HIPA NFT SERVER
 
 ## Region location
 
@@ -35,6 +35,7 @@ We have created the following functionalities:
 - First clone the repository
 
 ```bash
+cd nft-server
 yarn install
 yarn start:dev
 ```
