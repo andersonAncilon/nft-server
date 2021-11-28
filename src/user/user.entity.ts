@@ -10,16 +10,10 @@ import {
 
 @Entity()
 export class User extends BaseEntity {
-  constructor(
-    address: string,
-    name: string,
-    description?: string,
-    profilePicture?: string,
-  ) {
+  constructor(address: string, description?: string, profilePicture?: string) {
     super();
 
     this.address = address;
-    this.name = name;
     this.description = description;
     this.profilePicture = profilePicture;
   }
@@ -30,8 +24,8 @@ export class User extends BaseEntity {
   @Column()
   address: string;
 
-  @Column({ unique: true })
-  name: string;
+  @Column({ default: '' })
+  name?: string;
 
   @Column({ default: 'Describe a little about yourself' })
   description?: string;
