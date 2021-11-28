@@ -24,7 +24,7 @@ export class NftService {
   ) {}
   async listNfts(listNftDTO: ListNftDTO) {
     //TODO - Adicionar filtros e paginação
-    const { tags, page } = listNftDTO;
+    const { tags, page, user_id } = listNftDTO;
     const nfts = await this.nftRepository.find({
       relations: [
         'favorite_history',
@@ -34,7 +34,7 @@ export class NftService {
       ],
     });
 
-    return formatNftListReturn(nfts);
+    return formatNftListReturn(nfts, user_id);
   }
 
   async createNft(createNftDto: CreateNftDto) {

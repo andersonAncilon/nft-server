@@ -64,7 +64,9 @@ export class UserService {
       relations: [
         'favorite_nfts',
         'favorite_nfts.favorite_nft',
+        'favorite_nfts.favorite_nft.favorite_history',
         'favorite_nfts.favorite_nft.author',
+        'favorite_nfts.favorited_by',
       ],
     });
 
@@ -73,6 +75,6 @@ export class UserService {
       nftList.push(item.favorite_nft);
     });
 
-    return formatNftListReturn(nftList);
+    return formatNftListReturn(nftList, user_id, true);
   }
 }

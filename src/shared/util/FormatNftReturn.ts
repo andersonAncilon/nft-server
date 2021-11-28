@@ -18,7 +18,11 @@ export interface INftItem {
   value: string;
 }
 
-export function formatNftListReturn(nfts: NFT[]): INftItem[] {
+export function formatNftListReturn(
+  nfts: NFT[],
+  userId: number,
+  isFavorite?: boolean,
+): INftItem[] {
   const nftList: INftItem[] = [];
   nfts.map((nft) => {
     const nftItem: INftItem = {
@@ -44,9 +48,9 @@ export function formatNftListReturn(nfts: NFT[]): INftItem[] {
     nftItem.image.url = nft.image;
     nftItem.image.title = nft.name;
     nftItem.likes = nft.favorite_history.length;
-    nftItem.isLiked = nft?.favorite_history
-      ? wasNftFavoritedByUser(nft.favorite_history, nft.author.id, nft.id)
-      : null;
+    nftItem.isLiked =
+      isFavorite || wasNftFavoritedByUser(nft.favorite_history, userId, nft.id);
+
     //TODO - Remover mock
     nft.last_bid = parseFloat((Math.random() * 100).toFixed(2));
     nftItem.tags = nft.tags.split('|');
