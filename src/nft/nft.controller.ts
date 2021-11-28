@@ -10,7 +10,7 @@ import { NftService } from './nft.service';
 @Controller('nft')
 export class NftController {
   constructor(private readonly nftService: NftService) {}
-  @Get('list/:tags/:page')
+  @Get('list/:tags/:page/:user_id')
   async listNfts(@Param() listNftDTO: ListNftDTO): Promise<any> {
     return await this.nftService.listNfts(listNftDTO);
   }

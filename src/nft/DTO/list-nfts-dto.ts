@@ -7,4 +7,7 @@ export class ListNftDTO {
 
   @ApiProperty()
   page: number;
+
+  @ApiProperty()
+  user_id: number;
 }
